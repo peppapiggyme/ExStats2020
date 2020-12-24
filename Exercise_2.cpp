@@ -17,9 +17,6 @@
 
 using namespace std;
 
-#define TO_BE_FILLED_FIT_OPTION "S"
-#define TO_BE_FILLED 0.0
-
 void Exercise_2::test() const
 {
     // 按照均匀分布产生数据
@@ -47,31 +44,19 @@ void Exercise_2::test() const
     ROOT::Math::MinimizerOptions::SetDefaultMinimizer("Minuit2"); 
     TFitResultPtr result_neyman, result_pearson, result_likelihood;
     
-    /* TH1::Fit(TF1* func, const char* options)
-     * options: 
-     * - "S" -> save fit result
-     * - default -> use Neyman chi2
-     * - "P" -> use Pearson chi2
-     * - "L" -> use Maximum likelihood
-     *
-     * More information:
-     * https://root.cern.ch/root/htmldoc/guides/users-guide/FittingHistograms.html
-     */
-
     // Neyman chi-square
-    result_neyman = h1->Fit(f1, TO_BE_FILLED_FIT_OPTION);
+    result_neyman = h1->Fit(f1, "S");
     c1->SaveAs("../plots/Ex2_neyman.png");
 
     // Pearson chi-square
-    result_pearson = h1->Fit(f1, TO_BE_FILLED_FIT_OPTION);
+    result_pearson = h1->Fit(f1, "S P");
     c1->SaveAs("../plots/Ex2_pearson.png");
 
     // binned likelihood fit
-    result_likelihood = h1->Fit(f1, TO_BE_FILLED_FIT_OPTION);
+    result_likelihood = h1->Fit(f1, "S L");
     c1->SaveAs("../plots/Ex2_likelihood.png");
 
     // 解析结果
-    // 可以尝试用解析计算得出，例如下面是利用 Pearson Chi2 的计算结果
     auto f_result_pearson = [&]()
     {
         double SumOfYi2 = 0.0;
@@ -81,14 +66,6 @@ void Exercise_2::test() const
         }
         return std::sqrt(SumOfYi2 / (double)h1->GetNbinsX());
     };
-
-    // 请用 Neyman Chi2 计算
-    // TO_BE_FILLED
-    auto f_result_neyman = [&]()
-    {
-        return TO_BE_FILLED + trueValue;
-    };
-    
 
     // 
     auto g = new TGraphErrors(3);
@@ -106,12 +83,9 @@ void Exercise_2::test() const
     g->SetPoint(3, 4, f_result_pearson());
     g->SetPointError(3, 0, 0);
 
-    g->SetPoint(4, 5, f_result_neyman());
-    g->SetPointError(4, 0, 0);
-
     g->Draw("A EP");
 
-    auto line = new TLine(0.8, trueValue, 5.2, trueValue);
+    auto line = new TLine(0.8, trueValue, 4.2, trueValue);
     line->SetLineColor(kRed);
     line->Draw("same");
 

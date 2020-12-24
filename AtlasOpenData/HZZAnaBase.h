@@ -12,8 +12,6 @@
 #include <TChain.h>
 #include <TFile.h>
 
-#include "Utils.h"
-
 // Header file for the classes stored in the TTree if any.
 #include <iostream>
 #include <fstream>
@@ -21,13 +19,14 @@
 #include <vector>
 #include <unordered_map>
 
+#include "Utils.h"
+
 using std::vector;
 using std::unordered_map;
 using std::pair;
 using std::string;
 using std::ifstream;
 using std::istringstream;
-
 using SP::STL;
 
 class HZZAnaBase {
@@ -35,7 +34,7 @@ public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
 
-   // Fixed size dimensions of array or collections stored in the TTree if any.
+// Fixed size dimensions of array or collections stored in the TTree if any.
 
    // Declaration of leaf types
    Int_t           runNumber;
@@ -410,13 +409,7 @@ public:
            if (iss >> sRemain)
                std::cerr << "Found unexpected word: " << sRemain << " in " << iss.str() << "! Please check!\n";
 
-           /* FILL THIS
-            * Calculate the lumi weights
-            * Hint -> use STL::stof(s) to convert string to float (defined in Utils.h)
-            * e.g. sXSec is a string
-            * STL::stof(sXSec) is a float
-            */
-           mapLumiWeights[sName] = 1.0;
+           mapLumiWeights[sName] = STL::stof(sXSec) * STL::stof(sEff) * fLumi / STL::stof(sSumw);
        }
    }
 };

@@ -20,8 +20,6 @@
 using namespace std;
 using namespace SP;
 
-#define TO_BE_FILLED 0.0
-
 void Exercise_3::test() const
 {
     TFile* cData = TFile::Open("../plots/data.root");
@@ -91,7 +89,6 @@ void Exercise_3::test() const
         nSig_i = hSig->GetBinContent(i);
 
         // Can you optimise the mass window selection
-        // [TASK] modify this
         double width = 5.;
         if (std::fabs(m4l_i - 125.) < width) {
             IO::println("Bin %: mass = % | data = %, bkg = %, sig = %",
@@ -104,13 +101,12 @@ void Exercise_3::test() const
     
     // assume we know nBkg from a previous experiment
     // i.e. we have measured b to have a value b0 with an uncertainty nBkgErr
-    // [TASK] modify the systematic uncertainty on background
     double nBkgErr = 0.2;
 
     // Hypothesis test
     // H0 (null hypothesis) : no Higgs (background only)
     // H1 (alternative hypothesis) : Higgs exists
-
+    
     double mu = 0; // H0
 
     // generate toy mc
@@ -163,13 +159,8 @@ void Exercise_3::test() const
     double nObs = nData;
     double pValueObs = pValue(nObs);
     double pValueExp = pValue(nExp);
-    /* FILL THIS
-     * Hint -> use:
-     * ROOT::Math::normal_cdf_c (double x, double sigma=1, double x0=0)
-     * or TMath::ErfInverse(x)
-     */
-    double zObs = TO_BE_FILLED;
-    double zExp = TO_BE_FILLED;
+    double zObs = SPEx::GetSignificance(pValueObs);
+    double zExp = SPEx::GetSignificance(pValueExp);
 
     SP::IO::println("Observed number of events = %, p-value = %, Z = %\n"
                     "Expected number of events = %, p-value = %, Z = %\n", 
@@ -192,4 +183,3 @@ void Exercise_3::test() const
     delete lObs;
     delete c1;
 }
-

@@ -90,7 +90,6 @@ void Exercise_4::test() const
         nSig_i = hSig->GetBinContent(i);
 
         // Can you optimise the mass window selection
-        // [TASK] modify this
         double width = 5.;
         if (std::fabs(m4l_i - 200.) < width) {
             IO::println("Bin %: mass = % | data = %, bkg = %, sig = %",

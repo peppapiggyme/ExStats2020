@@ -14,8 +14,6 @@ using namespace SP;
 #define APPLY_CUT(criteria) \
     if (!(criteria)) continue;
 
-#define FILL_THIS_SELECTION 0
-
 // In priciple this should be lying in HZZAnaBase.cpp but
 // I think it's fine.
 unordered_map<string, float> HZZAnaBase::mapLumiWeights{};
@@ -83,7 +81,6 @@ void HZZAna::Loop()
       
         // read input option
         // set -1 or 1 for stop
-        // you can ingore this
         if (m_eType == eSampleType::BKG && process.find("single") != string::npos) 
         {
             fMCWeight = (fMCWeight / TMath::Abs(fMCWeight));
@@ -146,8 +143,7 @@ void HZZAna::Loop()
         }
         
         // Cut 2: four good leptons
-        // Replace the following line with the actual cut
-        APPLY_CUT(FILL_THIS_SELECTION);
+        APPLY_CUT(goodlep_n == 4);
 
         int goodlep1_index = goodlep_index[0];
         int goodlep2_index = goodlep_index[1];
@@ -155,8 +151,9 @@ void HZZAna::Loop()
         int goodlep4_index = goodlep_index[3];
 
         // Cut 3: first lepton pT > 25 GeV, second > 15 GeV and third > 10 GeV
-        // Replace the following line with the actual cut
-        APPLY_CUT(FILL_THIS_SELECTION);
+        APPLY_CUT(lep_pt->at(goodlep1_index) > 25000. 
+                  && lep_pt->at(goodlep2_index) > 15000. 
+                  && lep_pt->at(goodlep3_index) > 10000.);
 
         TLorentzVector Lepton_1  = TLorentzVector();
         TLorentzVector Lepton_2  = TLorentzVector();

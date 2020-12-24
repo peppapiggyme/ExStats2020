@@ -18,8 +18,6 @@
 using namespace std;
 using namespace SP;
 
-#define TO_BE_FILLED 0.0;
-
 void Exercise_1::test() const
 {
     // 数据量 default = 20
@@ -52,8 +50,7 @@ void Exercise_1::test() const
         double tau = p[0];
         for (auto x_i : x)
         {
-            // FILL THIS
-            sum += TO_BE_FILLED;
+            sum += std::log(1.0/tau * std::exp(-x_i/tau));
         }
         return -sum;
     };
@@ -66,24 +63,19 @@ void Exercise_1::test() const
     c1->SaveAs("../plots/Ex1_nll.png");
 
     // 计算拟和参数误差：二阶导数
-    // FILL THIS
-    // Hint -> TF1::GetMininumX() returns the minimum of your 1D function
-    double tau_hat = TO_BE_FILLED;
+    double tau_hat = fnll->GetMinimumX();
     IO::println("Estimated value of tau = %", tau_hat);
 
     double h = fnll->Derivative2(tau_hat);
-    // FILL THIS
-    double error = TO_BE_FILLED;
+    double error = sqrt(1./h);
     IO::println("Parabolic error on tau = %", error);
     
     // 计算拟和参数误差: deltaL = 0.5 Rule
     double nll_min = fnll->Eval(tau_hat);
     IO::println("NLL function value at minimum is = %", nll_min);
     
-    // FILL THIS
-    // Hint -> TF1::GetX(value, xmin, xmax), Get X for a given value
-    double tau_low = TO_BE_FILLED;
-    double tau_high = TO_BE_FILLED;
+    double tau_low = fnll->GetX(nll_min+0.5, 1, tau_hat);
+    double tau_high = fnll->GetX(nll_min+0.5, tau_hat, 10);
 
     IO::println("The interval for tau is : [ %, % ]", tau_low, tau_high);
     double err_low = tau_hat - tau_low;
