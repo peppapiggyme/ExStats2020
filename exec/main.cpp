@@ -18,24 +18,23 @@
  *  - CERN ROOT (v)
  *
  * 用法:
- *  ./DoExercise
+ *  ./build/ExStats2020
  * 
- * Statistical analysis examples are mostly took from this wonderful ATL:
+ * Statistical analysis examples are mostly took from here:
  * https://indico.cern.ch/event/545212/
  *
- * all credits to L.Moneta and L. Lyons
+ * 感谢 L.Moneta and L. Lyons
  * 
- * And thanks to the amazing Atlas open data
+ * And thanks to the Atlas open data
  * https://github.com/atlas-outreach-data-tools/atlas-outreach-cpp-framework-13tev
  * 
- * all credits to the developers 
+ * 感谢开发者 
  *
  * @file main.cpp
  * @author Bowen Zhang
  * @date 2020/10/03
  *
  */
-
 
 
 /// prototypes
